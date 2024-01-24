@@ -945,7 +945,7 @@ class resumeparse(object):
             
             print(f"Row with ID {email} exists:")
             print(row)
-            count_newfile +=1
+            count_oldfile +=1
             file_path = file
             destination_directory = "./Old files"
             new_filename = file
@@ -954,7 +954,7 @@ class resumeparse(object):
         else:
             
             print(f"Row with ID {email} does not exist.")
-            count_oldfile += 1
+            count_newfile += 1
             file_path = file
             destination_directory = "./New File"
             new_filename = file
