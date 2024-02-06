@@ -1,0 +1,119 @@
+.true {
+    color: black;
+    font-size: 1.5em;
+}
+
+.alent {
+    color: black;
+    font-size: bold;
+    font-weight: 500;
+    font-size: 1.5em;
+}
+
+.Navbar-container {
+    box-shadow: 0px 1px 5px #919191;
+    height: 45px;
+    display: flex;
+    width:100vw;
+    background-color: white;
+    /* position: fixed; */
+    /* z-index: 1; */
+}
+
+.truetalent-logo {
+    margin-top: 9px;
+    margin-left: 6%;
+    cursor: pointer;
+}
+
+.truetalent-logo img {
+    width: 150px;
+}
+
+.t-color {
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: #14BC9A;
+    -webkit-text-fill-color: white;
+}
+
+.TT {
+    display: flex;
+    margin-left: 100px;
+    margin-top: 8px;
+    cursor: pointer;
+}
+
+.TTGig {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.login-btn {
+    right: 4%;
+    position: absolute;
+}
+
+.navbar-login {
+    margin-top: 10px;
+    padding: 3px;
+    width: 70px;
+    border-radius: 5px;
+    border: 1px solid #FD815E;
+    background-color: white;
+    color: #FD815E;
+    cursor: pointer;
+
+}
+
+.navbar-register {
+    margin-left: 20px;
+    padding: 3px;
+    width: 80px;
+    border-radius: 5px;
+    border: 1px solid #FD815E;
+    background-color: white;
+    color: #FD815E;
+    cursor: pointer;
+    text-align: center;
+}
+
+.link-register {
+    text-decoration: none;
+    color: #FD815E;
+}
+
+.job-gig-container ul{
+    display:flex;
+    list-style-type:none;
+}
+
+.job-gig-container  Link{
+    text-decoration: none;
+}
+
+.list{
+    display: flex;
+    width: 20%;
+    margin-left: 3%;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.list-job{
+    text-decoration: none;
+}
+.li-job{
+    text-decoration: none;
+}
+.job-a{
+    border-bottom: 3px solid #14BC9A;
+    height: 70%;
+    margin-top: 4%;
+    color: #14BC9A;
+}
+.gig-a{
+    height: 70%;
+    margin-top: 4%;
+    color: #0000008C;
+    
+}
