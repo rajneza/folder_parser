@@ -7,6 +7,9 @@ import logging
 import sys
 import operator
 import string
+import requests
+import json
+import textract
 import mysql.connector
 import aspose.words as aw
 
@@ -184,16 +187,12 @@ class resumeparse(object):
         found = False
         print(email, "882")
         
-
-        host = 'localhost'
-        user = 'root'
-        password = 'raje123456@'
-        database = 'multi_threading'
         connection = mysql.connector.connect(
-        host=host,
-        user=user,
-        password=password,
-        database=database
+        host='localhost',
+        user='root',
+        password='',
+        database='truetalent'
+        
         )
 
         for emailnew in emailsave:
@@ -203,7 +202,7 @@ class resumeparse(object):
         if not found:
             emailsave.append(email)
             cursor = connection.cursor()
-            query = "SELECT Email FROM email WHERE Email = %s"
+            query = "SELECT email FROM parser WHERE email = %s"
             cursor.execute(query, (email,))
             row = cursor.fetchone()
             if row:
@@ -215,29 +214,34 @@ class resumeparse(object):
                 new_filename = file
                 save_file(file_path, destination_directory, new_filename)
             else:
-                conn = mysql.connector.connect(
-                user='root',
-                password='raje123456@',
-                host='localhost',
-                database='multi_threading'
-                )
-                cursor = conn.cursor()
-                insert_query = "SELECT * FROM email_email"
-               
-                cursor.execute(insert_query)
-                rows = cursor.fetchall()
-                print(rows, "sql")
-                conn.commit
-                cursor.close()
-                conn.close()
+                # print(f"Row with ID {email} does not exist.")
+                # count_newfile += 1
+                # file_path = file
+                # destination_directory = "./New File"
+                # new_filename = file
+                # save_file(file_path, destination_directory, new_filename)
 
+                php_script_url = "http://localhost/folder_parser/database.php"  # Update the URL accordingly
+                data = {
+                'email': email,
+                'row_newfile': str(count_newfile),
+                'row_oldfile': str(count_oldfile),
+                'row_dublicate': str(count_dublicate),
+                }
 
-                print(f"Row with ID {email} does not exist.")
-                count_newfile += 1
-                file_path = file
-                destination_directory = "./New File"
-                new_filename = file
-                save_file(file_path, destination_directory, new_filename)
+                response = requests.post(php_script_url, data=json.dumps(data))
+
+                if response.status_code == 200:
+                    result = response.json()
+                    if 'status' in result:
+                        if result['status'] == 'existing':
+                            count_oldfile = int(result['row_oldfile'])
+                        elif result['status'] == 'new':
+                            count_newfile = int(result['row_newfile'])
+                    else:
+                        print("Unexpected response from PHP script")
+                else:
+                    print("Error communicating with PHP script. Status code:", response.status_code)
         else:
             count_dublicate +=1
             file_path = file
