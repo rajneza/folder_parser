@@ -220,13 +220,14 @@ class resumeparse(object):
                 # destination_directory = "./New File"
                 # new_filename = file
                 # save_file(file_path, destination_directory, new_filename)
-
+                count_newfile += 1
+                file_path = file
+                destination_directory = "./Nld files"
+                new_filename = file
+                save_file(file_path, destination_directory, new_filename)
                 php_script_url = "http://localhost/folder_parser/database.php"  # Update the URL accordingly
                 data = {
                 'email': email,
-                'row_newfile': str(count_newfile),
-                'row_oldfile': str(count_oldfile),
-                'row_dublicate': str(count_dublicate),
                 }
 
                 response = requests.post(php_script_url, data=json.dumps(data))
