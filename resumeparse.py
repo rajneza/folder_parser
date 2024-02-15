@@ -85,7 +85,9 @@ class resumeparse(object):
             print('out except 313')              
         except Exception as e:
             logging.error('Error in docx file:: ' + str(e))
-            return None
+            return [], ""
+        finally:
+            pdf.close()
         try:
             full_string = re.sub(r'\n+', '\n', raw_text)
             full_string = full_string.replace("\r", "\n")
@@ -105,7 +107,9 @@ class resumeparse(object):
             return resume_lines, raw_text
         except Exception as e:
             logging.error('Error in docx file:: ' + str(e))
-            return None
+            return [], ""
+        finally:
+            pdf.close()
             
     
 
@@ -122,134 +126,126 @@ class resumeparse(object):
         
     
     def read_file(self, file, count_newfile, count_oldfile, count_dublicate, none_email, emailsave):
-        """
-        file : Give path of resume file
-        docx_parser : Enter docx2txt or tika, by default is tika
-        """
-        # file = "/content/Asst Manager Trust Administration.docx"
-        print("comming to file")
-        print("\n\n\n\n File == ",file,"\n\n")
+        try:
+            print("comming to file")
+            print("\n\n\n\n File == ",file,"\n\n")
         
-        count_newfile = int(count_newfile)
-        count_oldfile = int(count_oldfile)
+            count_newfile = int(count_newfile)
+            count_oldfile = int(count_oldfile)
         
-        file = os.path.join(file)
+            file = os.path.join(file)
        
-        if file.endswith('docx'):
-            
-            resume_lines, raw_text = resumeparse.convert_docx_to_txt(file)
+            if file.endswith('docx'):
+                resume_lines, raw_text = resumeparse.convert_docx_to_txt(file)
         
-        elif file.endswith('doc') or file.endswith('.rtf'):
-            resume_lines, raw_text = resumeparse.convert_doc_to_txt(file)
+            elif file.endswith('doc') or file.endswith('.rtf'):
+                resume_lines, raw_text = resumeparse.convert_doc_to_txt(file)
         
-        elif file.endswith('pdf'):
-            
-            resume_lines, raw_text = resumeparse.convert_pdf_to_txt(file)
-        elif file.endswith('txt'):
+            elif file.endswith('pdf'):
+                resume_lines, raw_text = resumeparse.convert_pdf_to_txt(file)
+            elif file.endswith('txt'):
            
-            with open(file, 'r', encoding='latin') as f:
-                resume_lines = f.readlines()
+                with open(file, 'r', encoding='latin') as f:
+                    resume_lines = f.readlines()
 
-        else:
-            resume_lines = None
+            else:
+                resume_lines = None
         
         
-        full_text = " ".join(resume_lines)
+            full_text = " ".join(resume_lines)
 
         
         
         
-        def save_file(file_path, destination_directory, new_filename):
+            def save_file(file_path, destination_directory, new_filename):
     
-            if os.path.isfile(file_path):
+                if os.path.isfile(file_path):
         
-                destination_path = os.path.join(destination_directory, new_filename)
+                    destination_path = os.path.join(destination_directory, new_filename)
 
         
-                shutil.copy(file_path, destination_path)
+                    shutil.copy(file_path, destination_path)
 
-                print("File saved successfully at")
-            else:
-                print(f"Error: File not found at {file_path}")
-
-        def save_file1(file_path, destination_directory, new_filename):
-    
-            if os.path.isfile(file_path):
-        
-                destination_path = os.path.join(destination_directory, new_filename)
-                shutil.copy(file_path, destination_path)
-
-                print("File saved successfully at")
-            else:
-                print(f"Error: File not found at {file_path}")
-
-        email = resumeparse.extract_email(full_text)
-        found = False
-        print(email, "882")
-        
-        connection = mysql.connector.connect(
-        host='localhost',
-        user='root',
-        password='',
-        database='truetalent'
-        )
-
-        for emailnew in emailsave:
-            if emailnew == email:
-                found = True
-                break
-
-        emailsave = [x for x in emailsave if x is not None]
-        if not found:
-            emailsave.append(email)
-            cursor = connection.cursor()
-            query = "SELECT email FROM parser WHERE email = %s"
-            cursor.execute(query, (email,))
-            row = cursor.fetchone()
-            if row:
-                # print(f"Row with ID {email} exists:")
-                # print(row)
-                count_oldfile +=1
-                file_path = file
-                destination_directory = "./Old files"
-                new_filename = file
-                save_file(file_path, destination_directory, new_filename)
-            else:
-                if email is not None:
-                    count_newfile += 1
-                    file_path = file
-                    destination_directory = "./New File"
-                    new_filename = file
-                    save_file(file_path, destination_directory, new_filename)
-
-                    php_script_url = "http://localhost/folder_parser/database.php"  # Update the URL accordingly
-                    data = {
-                    'email': email
-                    }
-
-                    response = requests.post(php_script_url, data=json.dumps(data))
-
-                    if response.status_code == 200:
-                        result = response.json()
-                    else:
-                        print("Error communicating with PHP script. Status code:", response.status_code)
+                    print("File saved successfully at")
                 else:
-                    print(file, "188")
-                    none_email += 1
+                    print(f"Error: File not found at {file_path}")
+
+            def save_file1(file_path, destination_directory, new_filename):
+    
+                if os.path.isfile(file_path):
+        
+                    destination_path = os.path.join(destination_directory, new_filename)
+                    shutil.copy(file_path, destination_path)
+
+                    print("File saved successfully at")
+                else:
+                    print(f"Error: File not found at {file_path}")
+
+            email = resumeparse.extract_email(full_text)
+            found = False
+            print(email, "882")
+        
+            connection = mysql.connector.connect(
+            host='localhost',
+            user='root',
+            password='',
+            database='truetalent'
+            )
+
+            for emailnew in emailsave:
+                if emailnew == email:
+                    found = True
+                    break
+
+            emailsave = [x for x in emailsave if x is not None]
+            if not found:
+                emailsave.append(email)
+                cursor = connection.cursor()
+                query = "SELECT email FROM parser WHERE email = %s"
+                cursor.execute(query, (email,))
+                row = cursor.fetchone()
+                if row:
+                    count_oldfile +=1
                     file_path = file
-                    destination_directory = "./No Email"
+                    destination_directory = "./Old files"
                     new_filename = file
                     save_file(file_path, destination_directory, new_filename)
+                else:
+                    if email is not None:
+                        count_newfile += 1
+                        file_path = file
+                        destination_directory = "./New File"
+                        new_filename = file
+                        save_file(file_path, destination_directory, new_filename)
+
+                        php_script_url = "http://localhost/folder_parser/database.php"  # Update the URL accordingly
+                        data = {
+                        'email': email
+                        }
+
+                        response = requests.post(php_script_url, data=json.dumps(data))
+
+                        if response.status_code == 200:
+                            result = response.json()
+                        else:
+                            print("Error communicating with PHP script. Status code:", response.status_code)
+                    else:
+                        print(file, "188")
+                        none_email += 1
+                        file_path = file
+                        destination_directory = "./No Email"
+                        new_filename = file
+                        save_file(file_path, destination_directory, new_filename)
 
                 
-        else:
-            count_dublicate +=1
-            file_path = file
-            destination_directory = "./duplicate files"
-            new_filename = file
-            save_file(file_path, destination_directory, new_filename)
-        
-        #print(emailsave)   
+            else:
+                count_dublicate +=1
+                file_path = file
+                destination_directory = "./duplicate files"
+                new_filename = file
+                save_file(file_path, destination_directory, new_filename)
+        except Exception as e:
+            logging.error('Error in reading file {}: {}'.format(file_path, str(e)))
 
         return {
             "email": email,
