@@ -15,6 +15,7 @@ const App = () => {
     const [oldfilecount, setoldfilecount] = useState(0);
     const [currentCount, setCurrentCount] = useState(0);
     const [dublicateCount, setdublicateCount] = useState(0);
+    const [noEmail, setnoEmail] = useState(0)
     const [totalCount, setTotalCount] = useState(0);
     const [no_files, setno_files] = useState(0);
     const [seletedfile, setseletedfile] = useState(null)
@@ -33,6 +34,7 @@ const App = () => {
             setnewfilecount(data.new_count);
             setoldfilecount(data.old_count);
             setdublicateCount(data.dublicate_count)
+            setnoEmail(data.none_email)
             setprogress(Math.round((data.current_count / data.total_count) * 100))
         });
         socket.on('parse_complete', data => {
@@ -170,6 +172,10 @@ const App = () => {
                                     <div>
                                         <label className='font-size'>Number of dublicate files in this batch: </label> <br/>
                                         <input value={dublicateCount} className='input-value'></input>
+                                    </div>
+                                    <div>
+                                        <label className='font-size'>Number of files without Email: </label> <br/>
+                                        <input value={noEmail} className='input-value'></input>
                                     </div>
                                     </div>
                                 </form>
