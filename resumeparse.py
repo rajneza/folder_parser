@@ -127,7 +127,7 @@ class resumeparse(object):
     
     def read_file(self, file, count_newfile, count_oldfile, count_dublicate, none_email, emailsave):
         try:
-            print("comming to file")
+            
             print("\n\n\n\n File == ",file,"\n\n")
         
             count_newfile = int(count_newfile)
@@ -166,7 +166,7 @@ class resumeparse(object):
         
                     shutil.copy(file_path, destination_path)
 
-                    print("File saved successfully at")
+                    
                 else:
                     print(f"Error: File not found at {file_path}")
 
@@ -177,13 +177,17 @@ class resumeparse(object):
                     destination_path = os.path.join(destination_directory, new_filename)
                     shutil.copy(file_path, destination_path)
 
-                    print("File saved successfully at")
+                    
                 else:
                     print(f"Error: File not found at {file_path}")
 
             email = resumeparse.extract_email(full_text)
+            if email is not None:
+                index = email.find(":") 
+                if index != -1:
+                    email = email[index + 1:].strip()
+                    print(email)
             found = False
-            print(email, "882")
         
             connection = mysql.connector.connect(
             host='localhost',
@@ -196,7 +200,7 @@ class resumeparse(object):
                 if emailnew == email:
                     found = True
                     break
-
+           
             emailsave = [x for x in emailsave if x is not None]
             if not found:
                 emailsave.append(email)
@@ -230,7 +234,6 @@ class resumeparse(object):
                         else:
                             print("Error communicating with PHP script. Status code:", response.status_code)
                     else:
-                        print(file, "188")
                         none_email += 1
                         file_path = file
                         destination_directory = "./No Email"
@@ -244,6 +247,7 @@ class resumeparse(object):
                 destination_directory = "./duplicate files"
                 new_filename = file
                 save_file(file_path, destination_directory, new_filename)
+            
         except Exception as e:
             logging.error('Error in reading file {}: {}'.format(file_path, str(e)))
 
@@ -252,7 +256,8 @@ class resumeparse(object):
             "row_newfile": count_newfile,
             "row_oldfile": count_oldfile,
             "row_dublicate": count_dublicate,
-            'none_email': none_email
+            'none_email': none_email,
+            'emailarray':emailsave
         }
     def display(self):
         print("\n\n ========= Inside display() ========== \n\n")

@@ -1,1 +1,1 @@
-{"email": "example@example.com", "domain": "@example.com", "row_newfile": 0, "row_oldfile": 21, "row_duplicate": 0, "none_email": 4}
+{"email": "example@example.com", "domain": "@example.com", "row_newfile": 0, "row_oldfile": 56, "row_duplicate": 1, "none_email": 1}

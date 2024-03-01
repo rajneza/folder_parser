@@ -6,12 +6,15 @@
 }
 .nav-bar{
   margin-top: 2%;
+  
 }
 .nav-div{
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  /* position: relative;
+  bottom: 315px; */
 }
 .upload-main{
   width: 60%;
@@ -103,8 +106,8 @@ input[type ="file"]{
 .font-size{
   font-size: 1.3rem;
   color: #9398A1;
-  margin-bottom: 2%;
-  margin-top: 5%;
+  
+  
   font-weight: lighter;
 }
 .flies-count{
@@ -139,5 +142,62 @@ input[type ="file"]{
 .tt-decline-btn{
   color:white;
   background-color: #14BC9A;
-  margin-right: 5%;
+  margin-right: 14%;
+}
+.old-bttn{
+  border: 1px solid #14BC9A;
+  background-color: #14BC9A;
+  color: white;
+  height: 5vh;
+  border-radius: 8px;
+  margin-right: 0px;
+  
+  cursor: pointer;
+ 
+}
+.date{
+  color: #9398A1;
+  cursor: pointer;
+}
+.main-page{
+  display: flex;
+  margin-top: 30vh;
+  width: 70%;
+
+}
+.old-data{
+  width: 30%;
+  
+}
+.new-data{
+  width: 70%;
+  background-color: white;
+}
+.main-div-bottom{
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  
+}
+.count-value-main{
+  display: flex;
+  gap: 5%;
+  
+}
+.tt-bbtn{
+  margin-top: 5%;
+}
+.count-value-input{
+  margin-top: 5%;
+  
+}
+.count-value-input1{
+  margin-top: 3.8%;
+  
+}
+.old-date{
+  margin-top: 1%;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: #14BC9A;
 }
