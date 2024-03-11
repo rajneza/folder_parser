@@ -67,6 +67,7 @@ input[type ="file"]{
   font-size: 1rem;
   font-weight: 500;
   color: #9398a1;
+  margin-top: 1.5%;
 }
 .tot-txt{
   margin-bottom: 0%;
@@ -81,6 +82,7 @@ input[type ="file"]{
   width: 50%;
   display: flex;
   justify-content: space-around;
+  margin-bottom: 1%;
 }
 .para-txt{
   margin-top: 0%;
@@ -182,7 +184,7 @@ input[type ="file"]{
 .count-value-main{
   display: flex;
   gap: 5%;
-  
+  margin-top: 2%;
 }
 .tt-bbtn{
   margin-top: 5%;
