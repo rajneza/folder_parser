@@ -1,12 +1,9 @@
 docx2txt==0.8
-nltk==3.5
-Pillow==7.2.0
-numpy==1.19.1
-pandas==1.1.0
 pdfminer.six==20200517           
 pdfplumber==0.5.23
-phonenumbers==8.12.7
-stemming==1.0.1
+mysql.connector
 aspose-words==21.10
-spacy==2.3.3
-en
+flask_cors
+werkzeug.utils
+flask_socketio
+flask
